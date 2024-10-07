@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub Projects Points Adjuster",
+  "version": "1.0",
+  "description": "GitHub Projectsのポイントをユーザー数に基づいて調整するChrome拡張機能。",
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*/projects/*"
+      ],
+      "js": ["content.js"]
+    }
+  ]
+}
