@@ -35,11 +35,11 @@
 
   // project-view::rd:の要素を監視して変更があれば再描画
   const projectViewEl = document.querySelector('[id^="project-view::rd:"]');
-  //const tableViewEl = document.querySelector('[data-testid="table-root"]');
   if (projectViewEl) {
     const observer = new MutationObserver(() => {
       // Table Viewでなければ抜ける
-      if (!projectViewEl.querySelector('[data-testid="table-root"]')) return;
+      const tableViewEl = document.querySelector('.TableBody-module__tableScrollContainerInner--LlFZK');
+      if (!tableViewEl) return;
 
       console.log('project-view::rd: の変更を検出しました。Adjusted Pointsを再描画します。');
       // FIXME
@@ -63,7 +63,8 @@
   }
 
   function renderAdjustedPoints(rowGroup, groupData, neededItemsData) {
-    const groupName = rowGroup.getAttribute('data-testid')?.replace('table-group-', '');
+    const groupName = rowGroup.querySelector('.Box-sc-g0xbh4-0.fjVhJx.prc-Text-Text-0ima0')?.textContent.trim();
+    if (!groupName) return;
     const group = groupData.find(g => g.name === groupName);
 
     if (!group) return;
@@ -72,7 +73,7 @@
     const groupItems = neededItemsData.filter(item => item.groupId === groupId);
     const totalAdjustedPoints = groupItems.reduce((sum, item) => sum + item.adjustedPoints, 0);
 
-    const defaultTotalPointsEl = rowGroup.querySelector('[data-testid="column-sum-Points"]');
+    const defaultTotalPointsEl = rowGroup.querySelector('.Box-sc-g0xbh4-0.ewmGxV.prc-Label-Label--LG6X');
     if (!defaultTotalPointsEl) return;
 
     let adjustedTotalPointsEl = defaultTotalPointsEl.nextElementSibling;
